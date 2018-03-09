@@ -3,7 +3,7 @@ const guwaa = function(msg) {
     const prefix = "やっぱ" + msg + "は最高っすねぇ～～～～！！！！！！（時速100キロ おいどけ";
     const suffix = "ぐわーーー私が" + msg + "になってしまった（超常現象";
     let result = prefix;
-    while(result.length + suffix.length < max) {
+    while(result.length + msg.length + suffix.length <= max) {
         result += msg;
     }
     result += suffix;
