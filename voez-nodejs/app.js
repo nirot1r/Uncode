@@ -59,9 +59,11 @@ Client.stream("statuses/filter", {track: "#VOEZ"}, function(stream) {
                         let scoreData;
                         if(scoreData = res.responses[0].fullTextAnnotation.text) {
                             const score = VoezScore.voezscore(scoreData);
-                            console.log(tweet.user.name + " : " + score);
-                            const tweetURL = "https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id_str;
-                            tweetPost(tweet.user.name + "さんのスコア : " + score + "\n" + tweetURL);
+                            if(score != 0) {
+                                console.log(tweet.user.name + " : " + score);
+                                const tweetURL = "https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id_str;
+                                tweetPost(tweet.user.name + "さんのスコア : " + score + "\n" + tweetURL);
+                            }
                         }
                     });
               } else {
