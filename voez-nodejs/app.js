@@ -28,6 +28,7 @@ const tweetPost = function(msg) {
 
 Client.stream("statuses/filter", {track: "#VOEZ"}, function(stream) {
     console.log("[Twitter]<準備完了> : Streaming API に接続しました。");
+    tweetPost("起動完了 " + "v0.0.0.1");
           stream.on("data", function(tweet) {
               //console.log(tweet.user.name + " : " + tweet.text);
               if(tweet.entities.media) {
