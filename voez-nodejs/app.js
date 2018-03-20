@@ -57,7 +57,7 @@ Client.stream("statuses/filter", {track: "#NIRTESTCASE"}, function(stream) {
                         }
                     }).getBody("utf8").then(JSON.parse).done(function(res) {
                         let scoreData;
-                        console.log(res);
+                        /*console.log(res);
                         if((scoreData = res.responses[0].fullTextAnnotation.text) === undefined) {
                             const score = voezscore(scoreData);
                             if(score != 0) {
@@ -65,7 +65,7 @@ Client.stream("statuses/filter", {track: "#NIRTESTCASE"}, function(stream) {
                                 const tweetURL = "https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id_str;
                                 tweetPost(tweet.user.name + "さんのスコア : " + score + "\n" + tweetURL);
                             }
-                        }
+                        }*/
                     });
               } else {
                 console.log("無視");
