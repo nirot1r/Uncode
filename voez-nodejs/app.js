@@ -66,7 +66,10 @@ Client.stream("statuses/filter", {track: "#VOEZ"}, function(stream) {
                                 tweetPost(tweet.user.name + "さんのスコア : " + score + "\n" + tweetURL);
                             }
                         }
-                    });
+                    })
+                    .catch(function (err) {
+                        console.log("何らかのエラーが発生しました。")
+                    });;
               } else {
                 console.log("無視");
               }
