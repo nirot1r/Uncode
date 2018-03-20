@@ -8,7 +8,7 @@
 /* 処理定義 */
 
 const voezscore = function(msg) {
-    const regexScore = /.*\\n([0-9]+)\\n0?再プレイ/;
+    const regexScore = /([0-9]+)く?(?:\\n><)?\\n0?再プレ/;
     let result;
     const scoreData = msg.replace(/\n/g, "\\n");
     if(!regexScore.test(scoreData)) return 0;
@@ -28,14 +28,14 @@ const tweetPost = function(msg) {
 
 Client.stream("statuses/filter", {track: "#VOEZ"}, function(stream) {
     console.log("[Twitter]<準備完了> : Streaming API に接続しました。");
-    tweetPost("起動完了 " + "v0.0.0.1");
+    tweetPost("起動完了 " + "v0.0.1.6");
           stream.on("data", function(tweet) {
               //console.log(tweet.user.name + " : " + tweet.text);
               if(tweet.entities.media) {
                 console.log(tweet.user.name + " : " + tweet.entities.media[0].media_url_https);
                 const imageURL = tweet.entities.media[0].media_url_https;
                 console.log("解析中です");
-                Request("POST", "https://vision.googleapis.com/v1/images:annotate?key=" + Token.GCPVisionAPI, 
+                Request("POST", "https://vision.googleapis.com/v1/images:annotate?key=" + Token.google, 
                     {
                         json: {
                             requests: [
@@ -59,7 +59,7 @@ Client.stream("statuses/filter", {track: "#VOEZ"}, function(stream) {
                         const resJson = res;
                         let scoreData;
                         if(scoreData = res.responses[0].fullTextAnnotation.text) {
-                            const score = VoezScore.voezscore(scoreData);
+                            const score = voezscore(scoreData);
                             if(score != 0) {
                                 console.log(tweet.user.name + " : " + score);
                                 const tweetURL = "https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id_str;
