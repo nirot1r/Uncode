@@ -28,8 +28,12 @@ const tweetPost = function(msg) {
 
 Client.stream("statuses/filter", {track: "#VOEZ"}, function(stream) {
     console.log("[Twitter]<準備完了> : Streaming API に接続しました。");
-    tweetPost("起動完了 " + "v0.1.2.1");
+    tweetPost("起動完了 " + "v0.1.3.1");
           stream.on("data", function(tweet) {
+                if (tweet.retweeted_status) {
+                    console.log("RT無視");
+                    return;
+                }
               //console.log(tweet.user.name + " : " + tweet.text);
               if(tweet.entities.media) {
                 console.log(tweet.user.name + " : " + tweet.entities.media[0].media_url_https);
@@ -66,7 +70,7 @@ Client.stream("statuses/filter", {track: "#VOEZ"}, function(stream) {
                             return;
                         }
                         let scoreData = res.responses[0].fullTextAnnotation.text;
-                        tweetPost(tweet.user.name + "さんのスコア : " + voezscore(scoreData) + " https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id_str);
+                        tweetPost(tweet.user.name + "さんのスコア( @" + tweet.user.screen_name + " ) : " + voezscore(scoreData) + " https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id_str + " #voezscore");
                     });
               } else {
                 console.log("無視");
