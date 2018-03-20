@@ -26,9 +26,9 @@ const tweetPost = function(msg) {
     );
 }
 
-Client.stream("statuses/filter", {track: "#NIRTESTCASE"}, function(stream) {
+Client.stream("statuses/filter", {track: "#VOEZ"}, function(stream) {
     console.log("[Twitter]<準備完了> : Streaming API に接続しました。");
-    tweetPost("起動完了 " + "v0.0.2.0-TESTCASE-FinalBETA");
+    tweetPost("起動完了 " + "v0.1.2.1");
           stream.on("data", function(tweet) {
               //console.log(tweet.user.name + " : " + tweet.text);
               if(tweet.entities.media) {
@@ -56,7 +56,17 @@ Client.stream("statuses/filter", {track: "#NIRTESTCASE"}, function(stream) {
                             ]
                         }
                     }).getBody("utf8").then(JSON.parse).done(function(res) {
-                        let scoreData;
+                        console.log(res);
+                        if(!Object.keys(res).length) {
+                            console.log("無視");
+                            return;
+                        }
+                        if(!("fullTextAnnotation" in res.responses[0])) {
+                            console.log("無視");
+                            return;
+                        }
+                        let scoreData = res.responses[0].fullTextAnnotation.text;
+                        tweetPost(tweet.user.name + "さんのスコア : " + voezscore(scoreData) + " https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id_str);
                     });
               } else {
                 console.log("無視");
